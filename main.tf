@@ -51,12 +51,3 @@ resource "azurerm_network_interface" "Nic" {
 
 
 
-resource "azurerm_virtual_machine" "VM" {
-  name = "Vm1"
-  location = azurerm_resource_group.RG
-  resource_group_name = azurerm_resource_group.RG
-  vm_size = 
-  storage_data_disk {
-    
-  }
-}
