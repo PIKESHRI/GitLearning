@@ -3,35 +3,35 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "RG" {
-  name = "TestRG"
-  location = "East US"
+  name = "${var.prefix}-resource"
+  location = var.location
 }
 
 
 resource "azurerm_virtual_network" "Vnet" {
-  name = "MyVnet"
+  name = "${var.prefix}-network"
   resource_group_name = azurerm_resource_group.RG.name
-  location = azurerm_resource_group.RG.location
+  location = var.location
   address_space = [ "10.0.0.1/16" ]
 }
 
 resource "azurerm_subnet" "subnet" {
-  name = "TestSubnet"
+  name = "${var.prefix}-subnet"
   resource_group_name = azurerm_resource_group.RG.name
   virtual_network_name = azurerm_virtual_network.Vnet.name
   address_prefixes = [ "10.0.0.2/24" ]
 }
 
 resource "azurerm_public_ip" "pip" {
-  name = "PIP"
+  name = "${var.prefix}-pip"
   resource_group_name = azurerm_resource_group.RG.name
-  location = azurerm_resource_group.RG.location
+  location = var.location
   allocation_method = "Dynamic"
 }
 
 resource "azurerm_network_interface" "Nic" {
-  name = "NIC"
-  location = azurerm_resource_group.RG.location
+  name = "${var.prefix}-nic"
+  location = var.location
   resource_group_name = azurerm_resource_group.RG.name
   ip_configuration {
     name = "internal"
@@ -51,12 +51,3 @@ resource "azurerm_network_interface" "Nic" {
 
 
 
-resource "azurerm_virtual_machine" "VM" {
-  name = "Vm1"
-  location = azurerm_resource_group.RG
-  resource_group_name = azurerm_resource_group.RG
-  vm_size = 
-  storage_data_disk {
-    
-  }
-}
